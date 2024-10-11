@@ -3,6 +3,12 @@ const btnAdd = document.querySelector("button");
 const listMotCle = document.querySelector("#keywordList");
 const messageError = document.querySelector("#error");
 
+function messageDErreur(error) {
+  messageError.textContent = error;
+  messageError.style.color = "red";
+  messageError.style.display = "block";
+}
+
 /**
  *
  * @param {string} text mot clé
@@ -29,25 +35,48 @@ function nombrelettre(text) {
  * @param {string} text crée une liste des mots clés en les ajoutants les uns après les autres
  */
 
-function ajouterMotcle(text) {
-  let motcle = document.createElement("li");
-  listMotCle.appendChild(motcle);
-  motcle.textContent = text;
-}
+// function ajouterMotcle(text) {
+//   let motExisteDeja = false;
+//   for (let i = 0; i < listMotCle.children.length; i++) {
+//     if (listMotCle.children[i].textContent === text) {
+//       motExisteDeja = true;
+//       break;
+//     }
+//   }
 
-function messageDErreur(error) {
-  messageError.textContent = error;
-  messageError.style.color = "red";
-  messageError.style.display = "block";
-}
+//   if (!motExisteDeja) {
+//     let motcle = document.createElement("li");
+//     listMotCle.appendChild(motcle);
+//     motcle.textContent = text;
+//   } else {
+//     messageDErreur("ce mot existe déjà...");
+//   }
+// }
 
 btnAdd.addEventListener("click", (e) => {
   e.preventDefault();
   let motcle = InputmotCle.value;
 
   if (typeDeCaracter(motcle) && nombrelettre(motcle)) {
-    ajouterMotcle(motcle);
+    // ajouterMotcle(motcle);
+    // messageError.style.display = "none";
+
+    let motExisteDeja = false;
+  for (let i = 0; i < listMotCle.children.length; i++) {
+    if (listMotCle.children[i].textContent === motcle) {
+      motExisteDeja = true;
+      break;
+    }
+  }
+
+  if (!motExisteDeja) {
+    let limotcle = document.createElement("li");
+    listMotCle.appendChild(limotcle);
+    limotcle.textContent = motcle;
     messageError.style.display = "none";
+  } else {
+    messageDErreur("ce mot existe déjà...");
+  }
   } else {
     messageDErreur("Oups ce mot n'est pas vailde");
   }
